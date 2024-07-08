@@ -52,3 +52,13 @@ def route4(request, is_ok=False):
     else:
         return HttpResponse(f"Route4 - is_ok: {is_ok}")
         # http://127.0.0.1:8000/app01/route4/False/
+
+def route5(request):
+    #path('route5/', views.route5, name='route5')
+    print(request.GET.get('switch'))
+    if request.GET.get('switch') == '0':
+        return route4(request, is_ok=True)
+        #http://127.0.0.1:8000/app01/route5/?switch=0
+    else:
+        return route4(request, is_ok=False)
+        #http://127.0.0.1:8000/app01/route5/
