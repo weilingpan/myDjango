@@ -41,3 +41,14 @@ def route3(request, project_token):
         #http://127.0.0.1:8000/app01/route3/123/
         #return: Route3: Project Token: 123, no is_login
 #path('route3/<str:project_token>/', views.route3, name='route3')
+
+def route4(request, is_ok=False):
+    #path('route4/<str:is_ok>/', views.route4, name='route4'),
+    print(request.build_absolute_uri())
+
+    if is_ok:
+        return HttpResponse(f"Route4 - is_ok: {is_ok}")
+        # http://127.0.0.1:8000/app01/route4/True/
+    else:
+        return HttpResponse(f"Route4 - is_ok: {is_ok}")
+        # http://127.0.0.1:8000/app01/route4/False/
