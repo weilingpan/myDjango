@@ -5,6 +5,7 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 from django.http import HttpResponse
 
 def route1(request):
+    print(request.build_absolute_uri())
     return HttpResponse("Hello world! app01")
 
 # def route1(request):
@@ -22,10 +23,12 @@ def route1(request):
 
 @ensure_csrf_cookie
 def route2(request):
+    print(request.build_absolute_uri())
     return HttpResponse("route2: ensure_csrf_cookie")
 
 # 這個參數是從 URL 路徑中提取的，而不是從查詢參數中提取的
 def route3(request, project_token):
+    print(request.build_absolute_uri())
     print(f"Project Token: {project_token}")
     if request.GET.get('is_login') == '0':
         return HttpResponse(
