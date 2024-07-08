@@ -27,6 +27,14 @@ def route2(request):
 # 這個參數是從 URL 路徑中提取的，而不是從查詢參數中提取的
 def route3(request, project_token):
     print(f"Project Token: {project_token}")
-    return HttpResponse(f"Route3: Project Token: {project_token}")
-#http://127.0.0.1:8000/app01/route3/123/
+    if request.GET.get('is_login') == '0':
+        return HttpResponse(
+            f"Route3: Project Token: {project_token}, is_login is 0")
+        #http://127.0.0.1:8000/app01/route3/123/?is_login=0
+        #return: Route3: Project Token: 123, is_login is 0
+    else:
+        return HttpResponse(
+            f"Route3: Project Token: {project_token}, no is_login")
+        #http://127.0.0.1:8000/app01/route3/123/
+        #return: Route3: Project Token: 123, no is_login
 #path('route3/<str:project_token>/', views.route3, name='route3')
