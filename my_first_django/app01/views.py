@@ -62,3 +62,11 @@ def route5(request):
     else:
         return route4(request, is_ok=False)
         #http://127.0.0.1:8000/app01/route5/
+
+## add api, it can show on swagger ##
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+class HelloWorld(APIView):
+    def get(self, request):
+        return Response({"message": "Hello, world!"}, status=status.HTTP_200_OK)
