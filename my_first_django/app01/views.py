@@ -4,6 +4,8 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 # Create your views here.
 from django.http import HttpResponse
 
+from rest_framework.decorators import api_view
+
 def route1(request):
     print(request.build_absolute_uri())
     return HttpResponse("Hello world! app01")
@@ -21,6 +23,7 @@ def route1(request):
 # http://127.0.0.1:8000/app01/route1/?project_token=123
 # http://127.0.0.1:8000/app01/route1/
 
+@api_view(['GET'])
 @ensure_csrf_cookie
 def route2(request):
     print(request.build_absolute_uri())
