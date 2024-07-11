@@ -1,5 +1,10 @@
 # myDjango
 
+`python manage.py startapp app02`
+
+`mkdir -p apps/app02`
+`python manage.py startapp app02 apps/app02`
+
 `mkdir -p apps`
 `cd apps`
 `django-admin startapp engine`
