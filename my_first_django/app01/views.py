@@ -84,4 +84,7 @@ class FirstViewSet(viewsets.ViewSet):
     serializer_class = None
 
     def list(self, request):
+        """
+        新增API的說明可以放在這裡
+        """
         return HttpResponse('myfirstviewset list')
