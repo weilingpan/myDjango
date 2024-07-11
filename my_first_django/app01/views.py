@@ -73,3 +73,15 @@ from rest_framework import status
 class HelloWorld(APIView):
     def get(self, request):
         return Response({"message": "Hello, world!"}, status=status.HTTP_200_OK)
+
+
+# 1. 定義 viewsets, 需包含（如 list、retrieve、create、update、destroy 等）。
+# 2. 使用 routers 在 urls.py 註冊
+# 3. 在 viewsets 自定義 CRUD API
+from rest_framework import status, viewsets
+class FirstViewSet(viewsets.ViewSet):
+    iam_organization_field = None
+    serializer_class = None
+
+    def list(self, request):
+        return HttpResponse('myfirstviewset list')
