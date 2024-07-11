@@ -83,8 +83,21 @@ class FirstViewSet(viewsets.ViewSet):
     iam_organization_field = None
     serializer_class = None
 
+    # get
     def list(self, request):
         """
         新增API的說明可以放在這裡
         """
-        return HttpResponse('myfirstviewset list')
+        return HttpResponse('get list')
+    
+    # post
+    def create(self, request):
+        return HttpResponse('create')
+    
+    # get
+    def retrieve(self, request, pk=None):
+        return HttpResponse('retrieve by pk')
+    
+    # delete
+    def destroy(self, request, pk=None):
+        return HttpResponse('delete by pk')
