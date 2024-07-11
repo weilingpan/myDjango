@@ -1,6 +1,13 @@
 from django.urls import path
 from . import views
 
+# 註冊 viewset #
+from rest_framework import routers
+from django.urls import path, include
+router = routers.DefaultRouter()
+router.register(r'-first', views.FirstViewSet, basename='first')
+# 註冊 viewset #
+
 urlpatterns = [
     path('route1/', views.route1, name='myroute1'),
     path('route2/', views.route2, name='route2'),
@@ -9,4 +16,6 @@ urlpatterns = [
     path('route5/', views.route5, name='route5'),
 
     path('hello/', views.HelloWorld.as_view(), name='hello_world'),
+
+    path('viewswt01', include(router.urls)), # 註冊 viewset
 ]
