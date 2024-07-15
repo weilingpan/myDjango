@@ -15,6 +15,24 @@ services:
     networks:
       - web
 
+  rqworker:
+    # build: .
+    image: regina-django
+    container_name: rq_worker
+    command: python manage.py rqworker default
+    volumes:
+      - .:/app
+    depends_on:
+      - redis
+    networks:
+      - web
+
+  redis:
+    image: redis:4.0-alpine
+    container_name: redis
+    networks:
+      - web
+
   traefik:
     image: traefik:v2.4
     container_name: traefik
@@ -23,7 +41,7 @@ services:
       - "--providers.docker=true"
       - "--entrypoints.web.address=:80"
     ports:
-      - "80:80"
+      # - "80:80"
       - "8080:8080"  # Traefik Dashboard
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
