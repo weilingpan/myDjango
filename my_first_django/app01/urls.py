@@ -18,4 +18,8 @@ urlpatterns = [
     path('hello/', views.HelloWorld.as_view(), name='hello_world'),
 
     path('viewswt01', include(router.urls)), # 註冊 viewset
+
+    # rq worker
+    path('rq-test/', views.rq_test, name='rq_test'),
+    # curl http://localhost:8000/app01/rq-test/?data=test_data
 ]
