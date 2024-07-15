@@ -22,4 +22,7 @@ urlpatterns = [
     # rq worker
     path('rq-test/', views.rq_test, name='rq_test'),
     # curl http://localhost:8000/app01/rq-test/?data=test_data
+
+    path('push_job/', views.push_job, name='push_job'),
+    # curl http://localhost:8000/app01/push_job/?data=test_data
 ]
