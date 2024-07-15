@@ -109,3 +109,11 @@ def rq_test(request):
     data = request.GET.get('data', 'default_data')
     example_task.delay(data)
     return JsonResponse({'status': 'Task has been queued'})
+
+def push_job(request):
+    import django_rq
+    queue = django_rq.get_queue('default')
+    queue.enqueue_call(
+        func='app01.tasks.example_task', 
+        args=('test_data',))
+    return HttpResponse('Task has been queued')
