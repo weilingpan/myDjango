@@ -130,7 +130,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 ## for rq-worker ##
 RQ_QUEUES = {
     'default': {
-        'HOST': 'redis',
+        'HOST': 'myredis',
         'PORT': 6379,
         'DB': 0,
         'DEFAULT_TIMEOUT': 360,
