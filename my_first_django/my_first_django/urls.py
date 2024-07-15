@@ -47,6 +47,9 @@ urlpatterns = [
     path("app01/", include("app01.urls")),
     path("app02/", include("apps.app02.urls")),
 
+    ## for rq-worker ##
+    path('django-rq/', include('django_rq.urls')),
+
     ## for swagger ##
     re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
