@@ -101,3 +101,11 @@ class FirstViewSet(viewsets.ViewSet):
     # delete
     def destroy(self, request, pk=None):
         return HttpResponse('delete by pk')
+
+
+def rq_test(request):
+    from django.http import JsonResponse
+    from .tasks import example_task
+    data = request.GET.get('data', 'default_data')
+    example_task.delay(data)
+    return JsonResponse({'status': 'Task has been queued'})
