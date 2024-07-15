@@ -18,3 +18,5 @@ pip install drf-yasg
 viewset CRUD
 ![image](https://github.com/weilingpan/myDjango/assets/42767268/a567cebe-07c3-4fbe-b328-2aba0fd3f378)
 
+# traefik dashboard
+![image](https://github.com/user-attachments/assets/08d7d3e8-afbc-484a-b737-26a4b75a77fe)
