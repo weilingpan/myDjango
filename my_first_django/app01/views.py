@@ -5,6 +5,7 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 from django.http import HttpResponse
 
 from rest_framework.decorators import api_view
+from rest_framework.decorators import action
 
 def route1(request):
     print(request.build_absolute_uri())
@@ -102,6 +103,13 @@ class FirstViewSet(viewsets.ViewSet):
     def destroy(self, request, pk=None):
         return HttpResponse('delete by pk')
 
+class JobViewSet(viewsets.ViewSet):
+    iam_organization_field = None
+    serializer_class = None
+
+    @action(detail=False, methods=['get'])
+    def custom_action(self, request):
+        return Response({"message": "This is a custom action"})
 
 def rq_test(request):
     from django.http import JsonResponse
