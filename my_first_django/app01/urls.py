@@ -6,6 +6,7 @@ from rest_framework import routers
 from django.urls import path, include
 router = routers.DefaultRouter()
 router.register(r'-first', views.FirstViewSet, basename='first')
+router.register(r'-job', views.JobViewSet, basename='job')
 # 註冊 viewset #
 
 urlpatterns = [
@@ -17,7 +18,7 @@ urlpatterns = [
 
     path('hello/', views.HelloWorld.as_view(), name='hello_world'),
 
-    path('viewswt01', include(router.urls)), # 註冊 viewset
+    path('viewswt', include(router.urls)), # 註冊 viewset
 
     # rq worker
     path('rq-test/', views.rq_test, name='rq_test'),
