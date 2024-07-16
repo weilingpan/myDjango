@@ -7,6 +7,7 @@ from django.http import HttpResponse
 from rest_framework.decorators import api_view
 from rest_framework.decorators import action
 
+from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 
 def route1(request):
@@ -109,6 +110,25 @@ class JobViewSet(viewsets.ViewSet):
     iam_organization_field = None
     serializer_class = None
 
+    # [GET] http://127.0.0.1:8000/app01/viewset-job/rq-test/?data=test_data
+    @swagger_auto_schema(
+        manual_parameters=[
+            openapi.Parameter(
+                'data',
+                openapi.IN_QUERY,
+                description="Data to be processed",
+                type=openapi.TYPE_STRING
+            )
+        ],
+        responses={200: openapi.Response('Success')}
+    )
+    @action(detail=False, methods=['get'], url_path='rq-test')
+    def rq_test(self, request):
+        from .tasks import example_task
+        data = request.GET.get('data', 'default_data')
+        example_task.delay(data)
+        return JsonResponse({'status': 'Task has been queued'})
+
     @action(detail=False, methods=['get'])
     @swagger_auto_schema(
         operation_description="This is the example view",
@@ -117,12 +137,6 @@ class JobViewSet(viewsets.ViewSet):
         # http://127.0.0.1:8000/app01/viewset-job/custom_action/
         return Response({"message": "This is a custom action"})
 
-def rq_test(request):
-    from django.http import JsonResponse
-    from .tasks import example_task
-    data = request.GET.get('data', 'default_data')
-    example_task.delay(data)
-    return JsonResponse({'status': 'Task has been queued'})
 
 def push_job(request):
     import django_rq
