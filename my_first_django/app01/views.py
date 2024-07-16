@@ -109,6 +109,7 @@ class JobViewSet(viewsets.ViewSet):
 
     @action(detail=False, methods=['get'])
     def custom_action(self, request):
+        # http://127.0.0.1:8000/app01/viewset-job/custom_action/
         return Response({"message": "This is a custom action"})
 
 def rq_test(request):
