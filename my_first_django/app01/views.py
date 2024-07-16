@@ -137,6 +137,22 @@ class JobViewSet(viewsets.ViewSet):
         # http://127.0.0.1:8000/app01/viewset-job/custom_action/
         return Response({"message": "This is a custom action"})
 
+    @action(detail=False, methods=['get'])
+    def list_finished_jobs(self, request):
+        from app01.core import get_finished_jobs
+        job_ids = get_finished_jobs()
+        # job_data = [{
+        #     'id': job.id,
+        #     'status': job.get_status(),
+        #     'created_at': job.created_at,
+        #     'enqueued_at': job.enqueued_at,
+        #     'started_at': job.started_at,
+        #     'ended_at': job.ended_at,
+        #     'result': job.result,
+        # } for job in jobs]
+        
+        return Response({"jobs": job_ids})
+
 
 def push_job(request):
     import django_rq
