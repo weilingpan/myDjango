@@ -7,6 +7,8 @@ from django.http import HttpResponse
 from rest_framework.decorators import api_view
 from rest_framework.decorators import action
 
+from drf_yasg.utils import swagger_auto_schema
+
 def route1(request):
     print(request.build_absolute_uri())
     return HttpResponse("Hello world! app01")
@@ -108,6 +110,9 @@ class JobViewSet(viewsets.ViewSet):
     serializer_class = None
 
     @action(detail=False, methods=['get'])
+    @swagger_auto_schema(
+        operation_description="This is the example view",
+    )
     def custom_action(self, request):
         # http://127.0.0.1:8000/app01/viewset-job/custom_action/
         return Response({"message": "This is a custom action"})
