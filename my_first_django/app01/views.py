@@ -140,18 +140,17 @@ class JobViewSet(viewsets.ViewSet):
     @action(detail=False, methods=['get'])
     def list_finished_jobs(self, request):
         from app01.core import get_finished_jobs
-        job_ids = get_finished_jobs()
-        # job_data = [{
-        #     'id': job.id,
-        #     'status': job.get_status(),
-        #     'created_at': job.created_at,
-        #     'enqueued_at': job.enqueued_at,
-        #     'started_at': job.started_at,
-        #     'ended_at': job.ended_at,
-        #     'result': job.result,
-        # } for job in jobs]
-        
-        return Response({"jobs": job_ids})
+        job_ids, jobs = get_finished_jobs()
+        job_data = [{
+            'id': job.id,
+            'status': job.get_status(),
+            'created_at': job.created_at,
+            'enqueued_at': job.enqueued_at,
+            'started_at': job.started_at,
+            'ended_at': job.ended_at,
+            'result': job.result,
+        } for job in jobs]
+        return Response({"jobs": job_ids, "detail": job_data})
 
 
 def push_job(request):
