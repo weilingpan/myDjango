@@ -141,6 +141,9 @@ class JobViewSet(viewsets.ViewSet):
         # http://127.0.0.1:8000/app01/viewset-job/custom_action/
         return Response({"message": "This is a custom action"})
 
+    @swagger_auto_schema(
+        deprecated=True,
+    )
     @action(detail=False, methods=['get'])
     def list_finished_jobs(self, request):
         from app01.core import get_finished_jobs
