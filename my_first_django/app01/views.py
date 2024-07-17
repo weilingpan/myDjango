@@ -11,6 +11,8 @@ from rest_framework.decorators import action
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 
+from app01.core import JobStatusEnum
+
 def route1(request):
     print(request.build_absolute_uri())
     return HttpResponse("Hello world! app01")
@@ -161,18 +163,18 @@ class JobViewSet(viewsets.ViewSet):
         # 如果使用 request_body, func 裡面要使用 request.data.get("parameter_name") 來取得參數
         # 如果使用 manual_parameters, func 裡面要使用 request.GET.get("parameter_name") 來取得參數
         # in_ 參數
-        # openapi.IN_BODY：Request 的 Body 中，例如 POST、PUT 等
-        # openapi.IN_QUERY：Request 的 query 中，例如 leezheng/?nice=1。
-        # openapi.IN_FORM：Request 的 form 中，例如文檔上傳。
-        # openapi.IN_PATH：Request 的 path 中，例如 /leezheng/<pk>/。
+        # openapi.IN_BODY: Request 的 Body 中，例如 POST、PUT 等
+        # openapi.IN_QUERY: Request 的 query 中，例如 leezheng/?nice=1。
+        # openapi.IN_FORM: Request 的 form 中，例如文檔上傳。
+        # openapi.IN_PATH: Request 的 path 中，例如 /leezheng/<pk>/。
         # type 參數
-        # openapi.TYPE_STRING：字串。
-        # openapi.TYPE_NUMBER：數值。
-        # openapi.TYPE_INTEGER：整數。
-        # openapi.TYPE_BOOLEAN：布林。
-        # openapi.TYPE_ARRAY：數組 / 列表。
-        # openapi.TYPE_OBJECT：對象 / 字典。
-        # openapi.TYPE_FILE：檔案。
+        # openapi.TYPE_STRING: 字串。
+        # openapi.TYPE_NUMBER: 數值。
+        # openapi.TYPE_INTEGER: 整數。
+        # openapi.TYPE_BOOLEAN: 布林。
+        # openapi.TYPE_ARRAY: 數組 / 列表。
+        # openapi.TYPE_OBJECT: 對象 / 字典。
+        # openapi.TYPE_FILE: 檔案。
         manual_parameters=[
            openapi.Parameter(
                name='job_id',
@@ -209,3 +211,22 @@ class JobViewSet(viewsets.ViewSet):
             job_id = job_id
         )
         return JsonResponse({'job_id': job.id, 'status': job.get_status()})
+
+    
+    status_param = openapi.Parameter(
+        'job_status', 
+        openapi.IN_QUERY, 
+        description="Job status", 
+        type=openapi.TYPE_STRING, 
+        enum=[status.name for status in JobStatusEnum],
+        required=True
+    )
+
+    @swagger_auto_schema(
+        operation_description="List jobs",
+        manual_parameters=[status_param],
+    )
+    @action(detail=False, methods=['get'])
+    def list_jobs(self, request):
+        status = request.GET.get("job_status")
+        return Response({"status": status})
