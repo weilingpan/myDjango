@@ -34,13 +34,7 @@ def get_finished_jobs():
 
 def get_jobs(status: str):
     queue = django_rq.get_queue('default')
-    registry_map = {
-        JobStatusEnum.finish.name: FinishedJobRegistry,
-        JobStatusEnum.failed.name: FailedJobRegistry,
-        JobStatusEnum.started.name: StartedJobRegistry,
-        JobStatusEnum.deferred.name: DeferredJobRegistry,
-        JobStatusEnum.scheduled.name: ScheduledJobRegistry
-    }
+    registry_map = {s.name: s.value for s in JobStatusEnum}
     
     job_registry_class = registry_map.get(status)
     if job_registry_class:
