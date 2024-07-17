@@ -4,9 +4,13 @@ from . import views
 # 註冊 viewset #
 from rest_framework import routers
 from django.urls import path, include
+
+from .myviews.job_view import JobViewSet
+
 router = routers.DefaultRouter()
 router.register(r'-first', views.FirstViewSet, basename='first')
 router.register(r'-job', views.JobViewSet, basename='job')
+router.register(r'-newjob', JobViewSet, basename='newjob')
 # 註冊 viewset #
 
 urlpatterns = [
