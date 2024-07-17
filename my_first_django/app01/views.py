@@ -14,19 +14,20 @@ from drf_yasg.utils import swagger_auto_schema
 from app01.core import JobStatusEnum
 from app01.core import get_jobs
 
-def route1(request):
-    print(request.build_absolute_uri())
-    return HttpResponse("Hello world! app01")
-
 # def route1(request):
-#     print(request.GET.keys)
-#     project_token = request.GET.get('project_token', None)
-#     if project_token:
-#         print(f"Project Token: {project_token}")
-#         return HttpResponse(f"Hello world! app01, Project Token: {project_token}")
-#     else:
-#         print("No project token provided")
-#         return HttpResponse("Hello world! app01, No project token")
+#     print(request.build_absolute_uri())
+#     return HttpResponse("Hello world! app01")
+
+def route1(request):
+    print(request.GET.keys)
+    print(request.build_absolute_uri())
+    project_token = request.GET.get('project_token', None)
+    if project_token:
+        print(f"Project Token: {project_token}")
+        return JsonResponse({"message": f"Hello world! app01, Project Token: {project_token}"})
+    else:
+        print("No project token provided")
+        return JsonResponse({"message": "Hello world! app01, No project token"})
 # path('route1/', views.route1, name='myroute1')
 # http://127.0.0.1:8000/app01/route1/?project_token=123
 # http://127.0.0.1:8000/app01/route1/
