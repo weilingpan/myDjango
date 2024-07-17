@@ -126,8 +126,8 @@ class JobViewSet(viewsets.ViewSet):
     def rq_test(self, request):
         from .tasks import example_task
         data = request.GET.get('data', 'default_data')
-        example_task.delay(data)
-        return JsonResponse({'status': 'Task has been queued'})
+        job = example_task.delay(data)
+        return JsonResponse({'job_id': job.id, 'status': job.get_status()})
 
     @action(detail=False, methods=['get'])
     @swagger_auto_schema(
