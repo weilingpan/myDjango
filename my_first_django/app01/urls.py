@@ -9,8 +9,8 @@ from .myviews.job_view import JobViewSet
 
 router = routers.DefaultRouter()
 router.register(r'-first', views.FirstViewSet, basename='first')
-router.register(r'-job', views.JobViewSet, basename='job')
-router.register(r'-newjob', JobViewSet, basename='newjob')
+# router.register(r'-oldjob', views.JobViewSet, basename='oldjob')
+router.register(r'-job', JobViewSet, basename='job')
 # 註冊 viewset #
 
 urlpatterns = [
