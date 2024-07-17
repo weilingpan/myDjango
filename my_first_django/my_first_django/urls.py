@@ -28,17 +28,19 @@ from django.urls import path, re_path
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
+
+# 建立 Swagger-OpenAPI 頁面上的基礎信息。
 schema_view = get_schema_view(
     openapi.Info(
-        title="Your Project API",
-        default_version='v1',
-        description="API documentation for your project",
-        terms_of_service="https://www.google.com/policies/terms/",
-        contact=openapi.Contact(email="contact@yourproject.local"),
-        license=openapi.License(name="BSD License"),
+        title="Your Project API", # [必要] 設置 Swagger-OpenAPI 頁面上的標題。
+        default_version='v1', # [必要] 設置 Swagger-OpenAPI 的默認版本。
+        description="API documentation for your project", # [可選] 設置 Swagger-OpenAPI 頁面上的描述信息。
+        terms_of_service="https://www.google.com/policies/terms/",  # [可選] 設置 Swagger-OpenAPI 文檔服務條款。
+        contact=openapi.Contact(email="regina@example.com"), # [可選] 設置 Swagger-OpenAPI 頁面上的聯絡人信息
+        license=openapi.License(name="BSD License"), # [可選] 設置 Swagger-OpenAPI 文檔許可證信息。
     ),
-    public=True,
-    permission_classes=(permissions.AllowAny,),
+    public=True, # 設置 Swagger-OpenAPI 文檔頁面為任何人都可訪問（不建議在正式環境下啟用）
+    permission_classes=(permissions.AllowAny,), #　內置權限類 permissions.AllowAny，表示任何人都有權限訪問視圖。
 )
 ## for swagger ##
 
