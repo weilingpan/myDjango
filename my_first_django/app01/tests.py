@@ -9,8 +9,13 @@ def api_client():
 # Create your tests here.
 class TestExample(TestCase):
 
-    def setUp(self):
-        self.client = APIClient()
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.client = APIClient()
+
+    # def setUp(self):
+    #     self.client = APIClient()
 
     def test_route1(self):
         response = self.client.get('/app01/route1/')
