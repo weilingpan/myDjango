@@ -10,6 +10,15 @@ from rq.registry import (
     ScheduledJobRegistry #計畫中的任務
     )
 
+from enum import Enum
+
+class JobStatusEnum(Enum):
+    finish = FinishedJobRegistry #已完成的任務
+    failed = FailedJobRegistry #失敗的任務
+    started = StartedJobRegistry #正在進行的任務
+    deferred = DeferredJobRegistry #被推遲的任務
+    scheduled = ScheduledJobRegistry #計畫中的任務
+    
 """
 django_rq 的一些用法
 """
