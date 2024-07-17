@@ -6,10 +6,12 @@ from rest_framework import routers
 from django.urls import path, include
 
 from .myviews.job_view import JobViewSet
+from .myviews.example_view import FirstViewSet
 
 router = routers.DefaultRouter()
-router.register(r'-first', views.FirstViewSet, basename='first')
+# router.register(r'-first', views.FirstViewSet, basename='first')
 # router.register(r'-oldjob', views.JobViewSet, basename='oldjob')
+router.register(r'-first', FirstViewSet, basename='first')
 router.register(r'-job', JobViewSet, basename='job')
 # 註冊 viewset #
 
