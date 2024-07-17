@@ -19,8 +19,4 @@ urlpatterns = [
     path('hello/', views.HelloWorld.as_view(), name='hello_world'),
 
     path('viewswt', include(router.urls)), # 註冊 viewset
-
-    # rq worker
-    path('push_job/', views.push_job, name='push_job'),
-    # curl http://localhost:8000/app01/push_job/?data=test_data
 ]
