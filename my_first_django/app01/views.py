@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.views.decorators.csrf import ensure_csrf_cookie
 
 # Create your views here.
+import django_rq
 from django.http import HttpResponse
 
 from rest_framework.decorators import api_view
@@ -153,11 +154,37 @@ class JobViewSet(viewsets.ViewSet):
         return Response({"jobs": job_ids, "detail": job_data})
 
 
+    @swagger_auto_schema(
+        operation_summary='Push job to queue',
+        operation_description="Create a job with the given job_id",
+        # 自定義API接口的參數格式
+        # 如果使用 request_body, func 裡面要使用 request.data.get("parameter_name") 來取得參數
+        # 如果使用 manual_parameters, func 裡面要使用 request.GET.get("parameter_name") 來取得參數
+        manual_parameters=[
+           openapi.Parameter(
+               name='job_id',
+               in_=openapi.IN_QUERY,
+               description='job id',
+               type=openapi.TYPE_STRING,
+               required=True
+           ),],
+        responses={
+            200: openapi.Response(description='Job created successfully'),
+            400: openapi.Response(description='Invalid input')
+        }
+    )
     @action(detail=False, methods=['POST'])
     def push_job(self, request):
-        import django_rq
+        job_id = request.GET.get("job_id")
+        if not job_id:
+            return Response(
+                {'error': 'job_id is required'}, 
+                status=status.HTTP_400_BAD_REQUEST)
+        
         queue = django_rq.get_queue('default')
         job = queue.enqueue_call(
             func='app01.tasks.example_task', 
-            args=('test_data',))
+            args=('test_data',),
+            job_id = job_id
+        )
         return JsonResponse({'job_id': job.id, 'status': job.get_status()})
