@@ -122,7 +122,7 @@ class JobViewSet(viewsets.ViewSet):
         ],
         responses={200: openapi.Response('Success')}
     )
-    @action(detail=False, methods=['get'], url_path='rq-test')
+    @action(detail=False, methods=['POST'], url_path='rq-test')
     def rq_test(self, request):
         from .tasks import example_task
         data = request.GET.get('data', 'default_data')
@@ -153,10 +153,11 @@ class JobViewSet(viewsets.ViewSet):
         return Response({"jobs": job_ids, "detail": job_data})
 
 
-def push_job(request):
-    import django_rq
-    queue = django_rq.get_queue('default')
-    queue.enqueue_call(
-        func='app01.tasks.example_task', 
-        args=('test_data',))
-    return HttpResponse('Task has been queued')
+    @action(detail=False, methods=['POST'])
+    def push_job(self, request):
+        import django_rq
+        queue = django_rq.get_queue('default')
+        queue.enqueue_call(
+            func='app01.tasks.example_task', 
+            args=('test_data',))
+        return HttpResponse('Task has been queued')
