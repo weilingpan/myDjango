@@ -157,7 +157,7 @@ class JobViewSet(viewsets.ViewSet):
     def push_job(self, request):
         import django_rq
         queue = django_rq.get_queue('default')
-        queue.enqueue_call(
+        job = queue.enqueue_call(
             func='app01.tasks.example_task', 
             args=('test_data',))
-        return HttpResponse('Task has been queued')
+        return JsonResponse({'job_id': job.id, 'status': job.get_status()})
