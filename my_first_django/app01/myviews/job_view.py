@@ -141,6 +141,10 @@ class JobViewSet(viewsets.ViewSet):
             'started_at': job.started_at,
             'ended_at': job.ended_at,
             'result': job.result,
+            'worker_name': job.worker_name,
+            'description': job.description,
+            'exc_info': job.exc_info
         } for job in jobs]
         return Response({"jobs": job_ids, "detail": job_data})
+        
 
