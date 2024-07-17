@@ -12,6 +12,7 @@ from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 
 from app01.core import JobStatusEnum
+from app01.core import get_jobs
 
 def route1(request):
     print(request.build_absolute_uri())
@@ -229,4 +230,14 @@ class JobViewSet(viewsets.ViewSet):
     @action(detail=False, methods=['get'])
     def list_jobs(self, request):
         status = request.GET.get("job_status")
-        return Response({"status": status})
+        job_ids, jobs = get_jobs(status)
+        job_data = [{
+            'id': job.id,
+            'status': job.get_status(),
+            'created_at': job.created_at,
+            'enqueued_at': job.enqueued_at,
+            'started_at': job.started_at,
+            'ended_at': job.ended_at,
+            'result': job.result,
+        } for job in jobs]
+        return Response({"jobs": job_ids, "detail": job_data})
