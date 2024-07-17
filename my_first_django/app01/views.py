@@ -160,14 +160,35 @@ class JobViewSet(viewsets.ViewSet):
         # 自定義API接口的參數格式
         # 如果使用 request_body, func 裡面要使用 request.data.get("parameter_name") 來取得參數
         # 如果使用 manual_parameters, func 裡面要使用 request.GET.get("parameter_name") 來取得參數
+        # in_ 參數
+        # openapi.IN_BODY：Request 的 Body 中，例如 POST、PUT 等
+        # openapi.IN_QUERY：Request 的 query 中，例如 leezheng/?nice=1。
+        # openapi.IN_FORM：Request 的 form 中，例如文檔上傳。
+        # openapi.IN_PATH：Request 的 path 中，例如 /leezheng/<pk>/。
+        # type 參數
+        # openapi.TYPE_STRING：字串。
+        # openapi.TYPE_NUMBER：數值。
+        # openapi.TYPE_INTEGER：整數。
+        # openapi.TYPE_BOOLEAN：布林。
+        # openapi.TYPE_ARRAY：數組 / 列表。
+        # openapi.TYPE_OBJECT：對象 / 字典。
+        # openapi.TYPE_FILE：檔案。
         manual_parameters=[
            openapi.Parameter(
                name='job_id',
                in_=openapi.IN_QUERY,
                description='job id',
                type=openapi.TYPE_STRING,
-               required=True
+               required=True,
+               deprecated=False,
            ),],
+        # request_body=openapi.Schema(
+        #     type=openapi.TYPE_OBJECT,
+        #     properties={
+        #         'object_A': openapi.Schema(
+        #             type=openapi.TYPE_STRING,
+        #             description='Description of the object_A.'),
+        # }),
         responses={
             200: openapi.Response(description='Job created successfully'),
             400: openapi.Response(description='Invalid input')
