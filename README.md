@@ -10,6 +10,7 @@
 `django-admin startapp engine`
 
 # for swagger
+- drf_yasg 和 drf_spectacular 都是 Django REST Framework (DRF) API 的庫。
 pip install drf-yasg
 
 # create my first viewset
