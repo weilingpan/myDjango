@@ -74,7 +74,10 @@ class CustomSpectacularAPIView2(SpectacularAPIView):
     def get(self, request, *args, **kwargs):
         self.urlconf = router_custom.urls
         response = super().get(request, *args, **kwargs)
+        # 參考 settings.py SPECTACULAR_SETTINGS
         response.data['info']['title'] = 'Custom API Schema 2'
+        response.data['info']['version'] = 'version 2'
+        response.data['info']['description'] = 'Custom API'
         return response
 
 urlpatterns = [
