@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework', ## for swagger ##
     'drf_yasg', ## for swagger ##
-    'django_rq' ## for rq-worker ##
+    'django_rq', ## for rq-worker ##
+    'drf_spectacular',
 ]
 
 REST_FRAMEWORK = {

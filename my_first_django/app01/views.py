@@ -3,7 +3,7 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 
 # Create your views here.
 import django_rq
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 
 from rest_framework.decorators import api_view
 from rest_framework.decorators import action

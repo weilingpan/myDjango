@@ -3,7 +3,7 @@
 
 services:
   mydjango:
-    # build: .
+    build: .
     image: regina-django
     container_name: mydjango
     command: python manage.py runserver 0.0.0.0:8000

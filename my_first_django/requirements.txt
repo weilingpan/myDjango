@@ -1,4 +1,4 @@
-./Django-5.0.6-py3-none-any.whl
+# ./Django-5.0.6-py3-none-any.whl
 
 asgiref==3.8.1
 async-timeout==4.0.3
@@ -21,3 +21,4 @@ drf-yasg
 pytest
 pytest-django
 drf-spectacular
+Django
