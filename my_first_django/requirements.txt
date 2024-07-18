@@ -20,3 +20,4 @@ djangorestframework
 drf-yasg
 pytest
 pytest-django
+drf-spectacular
