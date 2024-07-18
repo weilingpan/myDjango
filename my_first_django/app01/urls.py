@@ -6,6 +6,7 @@ from django.urls import path, include
 
 from .myviews.job_view import JobViewSet
 from .myviews.example_view import FirstViewSet
+from .myviews.drf_spectacular_view import ReginaViewSet
 
 
 ###### 使用 drf_yasg ######
@@ -32,7 +33,11 @@ from .myviews.example_view import FirstViewSet
 
 ###### 使用 drf_spectacular ######
 
+router = routers.DefaultRouter(trailing_slash=False)
+router.register('regina/api/v1', ReginaViewSet, basename='regina')
 urlpatterns = [
     path('route1/', views.route1, name='myroute1'),
     path('route2/', views.route2, name='route2'),
+    
+    path('', include(router.urls))
 ]
