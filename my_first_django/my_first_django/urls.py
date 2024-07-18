@@ -59,13 +59,13 @@ from drf_yasg import openapi
 from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("app01/", include("app01.urls")),
     path('django-rq/', include('django_rq.urls')), # for rq-worker
 
 
     path( 'api/schema/' , SpectacularAPIView.as_view(), name= 'schema' ),
-    # Optional UI:
     path( 'swagger/' , SpectacularSwaggerView.as_view(url_name= 'schema' ), name= 'swagger-ui' ),
     path( 'redoc/' , SpectacularRedocView.as_view(url_name= 'schema' ), name= 'redoc' ), 
+
+    path("app01/", include("app01.urls")),
 ]
 
