@@ -57,15 +57,43 @@ from drf_yasg import openapi
 
 ###### 使用 drf_spectacular ######
 from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
+from rest_framework import routers
+from rest_framework import serializers
+
+from app01.myviews.drf_spectacular_view import ReginaViewSet
+
+router_custom = routers.DefaultRouter(trailing_slash=False)
+router_custom.register('regina/api/v2', ReginaViewSet, basename='regina')
+
+class SimpleSerializer(serializers.Serializer):
+    pass
+
+class CustomSpectacularAPIView2(SpectacularAPIView):
+    serializer_class = SimpleSerializer
+
+    def get(self, request, *args, **kwargs):
+        self.urlconf = router_custom.urls
+        response = super().get(request, *args, **kwargs)
+        response.data['info']['title'] = 'Custom API Schema 2'
+        return response
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('django-rq/', include('django_rq.urls')), # for rq-worker
 
 
+    # http://127.0.0.1:8000/swagger/
+    # 會顯示所有的 API
     path( 'api/schema/' , SpectacularAPIView.as_view(), name= 'schema' ),
     path( 'swagger/' , SpectacularSwaggerView.as_view(url_name= 'schema' ), name= 'swagger-ui' ),
     path( 'redoc/' , SpectacularRedocView.as_view(url_name= 'schema' ), name= 'redoc' ), 
 
+    # http://127.0.0.1:8000/swagger/v2/
+    # 只會顯示 CustomSpectacularAPIView2 有定義的 self.urlconf 的 API
+    path( 'api/schema/v2/' , CustomSpectacularAPIView2.as_view(), name= 'schema-v2' ),
+    path( 'swagger/v2/' , SpectacularSwaggerView.as_view(url_name='schema-v2'), name= 'swagger-ui-v2' ),
+
     path("app01/", include("app01.urls")),
+    path('', include(router_custom.urls))
 ]
 
