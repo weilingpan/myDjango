@@ -10,6 +10,8 @@
 `django-admin startapp engine`
 
 `python manage.py createsuperuser` # regina/admin
+# 進入 admin 畫面登入後, 會產生一個 sessionid
+![alt text](sessionid.png)
 
 # for swagger
 - drf_yasg 和 drf_spectacular 都是 Django REST Framework (DRF) API 的庫。
