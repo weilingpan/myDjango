@@ -1,10 +1,11 @@
 from rest_framework import viewsets
 from rest_framework.decorators import action
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from drf_spectacular.utils import extend_schema, extend_schema_view, OpenApiParameter, OpenApiTypes
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseServerError, JsonResponse
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.utils.decorators import method_decorator
+from rest_framework.authentication import BasicAuthentication, TokenAuthentication
 
 @extend_schema(tags=['regina-api'])
 @extend_schema_view(
@@ -17,6 +18,12 @@ from django.utils.decorators import method_decorator
 class ReginaViewSet(viewsets.ViewSet):
     iam_organization_field = None
     serializer_class = None
+
+    authentication_classes = []  # 不允許任何人認證
+    permission_classes = [AllowAny]  # 允許任何人訪問
+
+    # authentication_classes = [TokenAuthentication]  # 使用 Token 認證
+    # permission_classes = [IsAuthenticated]  # 只有經過認證的用戶可以訪問
 
     def get_serializer(self, *args, **kwargs):
         pass
