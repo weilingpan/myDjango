@@ -9,6 +9,7 @@ from django.utils.decorators import method_decorator
 @extend_schema(tags=['regina-api'])
 @extend_schema_view(
     list=extend_schema(
+        description="Detailed description of this endpoint.",
         summary='Method returns a list of requests'),
     create=extend_schema(
         summary='Method calls the function'),
@@ -28,3 +29,12 @@ class ReginaViewSet(viewsets.ViewSet):
     def create(self, request):
         print("abb")
         return JsonResponse({"message": "Hello world!"})
+
+    @extend_schema(
+        summary="Get custom data",
+        description="Retrieve custom data",
+        responses={200: 'Custom data'},
+    )
+    @action(detail=False, methods=['get'], url_path='custom-data')
+    def custom_route(self, request):
+        return JsonResponse({"message": "This is custom data"})
