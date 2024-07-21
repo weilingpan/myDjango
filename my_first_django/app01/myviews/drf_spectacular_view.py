@@ -49,3 +49,30 @@ class ReginaViewSet(viewsets.ViewSet):
     @method_decorator(ensure_csrf_cookie)
     def custom_route(self, request):
         return JsonResponse({"message": "This is custom data"})
+    
+
+    @extend_schema(
+        summary="Get custom auth",
+        description="Retrieve custom auth",
+        responses={200: 'Custom auth'},
+        parameters=[
+            OpenApiParameter(name='Authorization', 
+                             description='Authorization token', 
+                             required=True, 
+                             type=OpenApiTypes.STR, 
+                             location=OpenApiParameter.HEADER),
+            OpenApiParameter(name='SessionID', 
+                             description='Session ID', 
+                             required=False, 
+                             type=OpenApiTypes.STR, 
+                             location=OpenApiParameter.HEADER),
+        ],
+    )
+    @action(detail=False, methods=['get'], url_path='custom-auth')
+    @method_decorator(ensure_csrf_cookie)
+    def custom_auth(self, request):
+        # curl http://localhost:8000/regina/api/v2/custom-auth -H "cookie: sessionid=xxxxx"
+        authorization = request.headers.get('Authorization', None)
+        session_id = request.headers.get('SessionID', None)
+        return JsonResponse({"message": "This is custom auth"})
+    

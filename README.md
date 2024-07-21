@@ -9,6 +9,8 @@
 `cd apps`
 `django-admin startapp engine`
 
+`python manage.py createsuperuser` # regina/admin
+
 # for swagger
 - drf_yasg 和 drf_spectacular 都是 Django REST Framework (DRF) API 的庫。
 pip install drf-yasg
