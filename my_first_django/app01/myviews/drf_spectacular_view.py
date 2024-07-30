@@ -6,6 +6,21 @@ from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseServer
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.utils.decorators import method_decorator
 from rest_framework.authentication import BasicAuthentication, TokenAuthentication
+from rest_framework import serializers
+from drf_spectacular.utils import OpenApiExample
+
+
+class ExampleSerializer(serializers.Serializer):
+    para1 = serializers.CharField(
+        required=False,
+        allow_null=True,
+        help_text="help_text",
+    )
+    para2 = serializers.CharField(
+        required=False,
+        allow_null=True,
+        help_text="help_text",
+    )
 
 @extend_schema(tags=['regina-api'])
 @extend_schema_view(
@@ -83,3 +98,24 @@ class ReginaViewSet(viewsets.ViewSet):
         session_id = request.headers.get('SessionID', None)
         return JsonResponse({"message": "This is custom auth"})
     
+    @extend_schema(
+        summary="Get custom auth",
+        description="Retrieve custom auth",
+        responses={200: 'Custom auth'},
+        request=ExampleSerializer,
+        examples=[
+            OpenApiExample(
+                'Example 1',
+                description='An example input.',
+                value={
+                    'para1': 'John Doe',
+                    'para2': 30
+                },
+                request_only=True,
+            ),
+        ]
+
+    )
+    @action(detail=False, methods=['post'], url_path='mycreate')
+    def mycreate(self, request):
+        pass
