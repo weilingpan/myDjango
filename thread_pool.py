@@ -9,6 +9,10 @@ print(f"Using max_workers: {max_workers}")
 
 # 0*10 + 1*10 + 2*10 = 0+10+20 = 30
 #  縮短成 20 s
+
+# 0*10 + 1*10 + 2*10 + 3*10 = 0+10+20+30 = 60
+#  縮短成 30 s
+
 def download_file(i):
     print(f"[{datetime.now()}] download {i} ...")
     time.sleep(i*10)
@@ -21,7 +25,7 @@ def process_file(job):
 # 使用 ThreadPoolExecutor 进行多线程下载
 def download_and_process_files():
     with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
-        futures = {executor.submit(download_file, i): i for i in range(3)}
+        futures = {executor.submit(download_file, i): i for i in range(4)}
         for future in concurrent.futures.as_completed(futures):
             try:
                 result = future.result()
