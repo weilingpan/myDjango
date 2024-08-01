@@ -124,7 +124,18 @@ class ReginaViewSet(viewsets.ViewSet):
         summary="create with parameters",
         description="Retrieve custom data",
         responses={200: 'Custom data'},
+        parameters=[
+            OpenApiParameter(name='version', 
+                             description='version',
+                             required=False,
+                             type=OpenApiTypes.INT),
+        ],
     )
     @action(detail=False, methods=['post'], url_path='mycreate2/(?P<token>[^/.]+)')
     def mycreate2(self, request, token=None):
-        return JsonResponse({"message": f"token={token}"})
+        version = int(request.query_params.get('version', None))
+        return JsonResponse({"message": {
+            f"token": token,
+            "version": version
+            }
+        })
