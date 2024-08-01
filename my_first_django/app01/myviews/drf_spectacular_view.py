@@ -119,3 +119,12 @@ class ReginaViewSet(viewsets.ViewSet):
     @action(detail=False, methods=['post'], url_path='mycreate')
     def mycreate(self, request):
         pass
+
+    @extend_schema(
+        summary="create with parameters",
+        description="Retrieve custom data",
+        responses={200: 'Custom data'},
+    )
+    @action(detail=False, methods=['post'], url_path='mycreate2/(?P<token>[^/.]+)')
+    def mycreate2(self, request, token=None):
+        return JsonResponse({"message": f"token={token}"})
