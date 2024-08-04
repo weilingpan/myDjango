@@ -28,6 +28,10 @@ class ExampleSerializer(serializers.Serializer):
         allow_null=False,
         help_text="help_text",
     )
+    detail = serializers.DictField(
+        child=serializers.CharField(), 
+        required=True
+    )
 
     #Django REST Framework 默认会对设置 required=True 的字段进行验证，因此你可以避免显式地在 validate 方法中重复这些检查。
     def validate(self, data):
@@ -125,7 +129,8 @@ class ReginaViewSet(viewsets.ViewSet):
                 value={
                     'name': 'John Doe',
                     'age': 30,
-                    'email': 'john@example.com'
+                    'email': 'john@example.com',
+                    'detail': {}
                 },
                 request_only=True,
             ),
