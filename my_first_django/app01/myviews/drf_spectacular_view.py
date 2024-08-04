@@ -6,21 +6,36 @@ from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseServer
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.utils.decorators import method_decorator
 from rest_framework.authentication import BasicAuthentication, TokenAuthentication
-from rest_framework import serializers
+from rest_framework import serializers, status
+from rest_framework.response import Response
+
 from drf_spectacular.utils import OpenApiExample
 
 
 class ExampleSerializer(serializers.Serializer):
-    para1 = serializers.CharField(
+    name = serializers.CharField(
+        required=True,
+        allow_null=False,
+        help_text="help_text",
+    )
+    age = serializers.CharField(
         required=False,
         allow_null=True,
         help_text="help_text",
     )
-    para2 = serializers.CharField(
-        required=False,
-        allow_null=True,
+    email = serializers.CharField(
+        required=True,
+        allow_null=False,
         help_text="help_text",
     )
+
+    #Django REST Framework 默认会对设置 required=True 的字段进行验证，因此你可以避免显式地在 validate 方法中重复这些检查。
+    def validate(self, data):
+        # if 'name' not in data:
+        #     raise serializers.ValidationError({"name": "This field is required."})
+        # if 'email' not in data:
+        #     raise serializers.ValidationError({"email": "This field is required."})
+        return data
 
 @extend_schema(tags=['regina-api'])
 @extend_schema_view(
@@ -108,8 +123,9 @@ class ReginaViewSet(viewsets.ViewSet):
                 'Example 1',
                 description='An example input.',
                 value={
-                    'para1': 'John Doe',
-                    'para2': 30
+                    'name': 'John Doe',
+                    'age': 30,
+                    'email': 'john@example.com'
                 },
                 request_only=True,
             ),
@@ -118,7 +134,13 @@ class ReginaViewSet(viewsets.ViewSet):
     )
     @action(detail=False, methods=['post'], url_path='mycreate')
     def mycreate(self, request):
-        pass
+        serializer = ExampleSerializer(data=request.data)
+        if serializer.is_valid():
+            # return JsonResponse(request.data)
+            return Response(request.data, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
 
     @extend_schema(
         summary="create with parameters",
