@@ -46,7 +46,8 @@ networks:
 
 # 訪問 Django http://localhost:8000/admin
 # 訪問 Swagger http://localhost:8000/swagger/
-# 訪問 Traefik Dashboard http://localhost:8080.
+# 訪問 Traefik Dashboard http://localhost:8080
+# 訪問 Supervisor http://localhost:8889/
 # docker-compose -f docker-compose-supervisor.yml up -d
   
   
