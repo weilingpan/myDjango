@@ -10,6 +10,8 @@ from rest_framework import serializers, status
 from rest_framework.response import Response
 
 from drf_spectacular.utils import OpenApiExample
+import django_rq
+import time
 
 
 class ExampleSerializer(serializers.Serializer):
@@ -166,3 +168,24 @@ class ReginaViewSet(viewsets.ViewSet):
             "version": version
             }
         })
+
+
+    @extend_schema(
+        summary="Create a new rq job",
+        description="Create a new rq job",
+        responses={200: 'Create a new rq job'},
+    )
+    @action(detail=False, methods=['post'], url_path='create-rq-job')
+    @method_decorator(ensure_csrf_cookie)
+    def create_rq_job(self, request):
+        queue = django_rq.get_queue('default')
+        task_name = "my-first-task"
+        queue.enqueue(my_function, task_name)
+        return HttpResponse("Task has been enqueued!")
+    
+def my_function(task_name: str):
+    print(f"Start process - {task_name} ...")
+    for i in range(30):
+        print(f"{task_name} - {i} update log")
+        time.sleep(1)
+    print(f"[{time.time()}]End process - {task_name}")
