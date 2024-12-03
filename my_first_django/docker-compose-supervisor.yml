@@ -3,12 +3,13 @@
 services:
   mydjango:
     # build: .
-    image: regina-django
+    image: regina-django-supervisor
     container_name: mydjango
     volumes:
       - .:/app
     ports:
       - "8000:8000"
+      - "8889:8889"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.django.rule=Host(`localhost`)"
@@ -26,7 +27,7 @@ services:
 
   traefik:
     image: traefik:v2.4
-    container_name: traefik
+    container_name: mytraefik
     command:
       - "--api.insecure=true"
       - "--providers.docker=true"
@@ -43,7 +44,9 @@ networks:
   web:
     driver: bridge
 
-# 訪問 Django http://localhost。
+# 訪問 Django http://localhost:8000/admin
+# 訪問 Swagger http://localhost:8000/swagger/
 # 訪問 Traefik Dashboard http://localhost:8080.
+# docker-compose -f docker-compose-supervisor.yml up -d
   
   
