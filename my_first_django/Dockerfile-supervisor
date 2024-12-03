@@ -8,6 +8,7 @@ RUN pip install --no-cache-dir -r requirements.txt \
     --trusted-host files.pythonhosted.org
 
 RUN mkdir -p /var/log/supervisor /var/log/django /var/log/rqworker
+RUN mkdir /tmp/supervisord
 
 COPY . /app/
 EXPOSE 8000
